@@ -14,16 +14,12 @@
 
 This repository contains the implementation of **PolicyTrim: Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models**.
 
-Paper PDF: [PolicyTrim Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models.pdf](<PolicyTrim Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models.pdf>)
+PolicyTrim addresses the intrinsic policy-efficiency bottleneck of Vision-Language-Action (VLA) models. While most deployment-efficiency work reduces per-step inference latency, PolicyTrim reduces the number of inference calls required to finish a task by improving two policy-level factors:
 
-PolicyTrim targets the policy-efficiency bottleneck of VLA models in long-horizon action generation and deployment. Built on top of GRPO, it introduces a two-stage reinforcement learning post-training framework:
+- the reliable executable length of predicted action chunks
+- the total number of physical steps needed for task completion
 
-- **Stage 1: long-horizon reliability expansion.**
-  Dynamic execution-horizon exploration and reliable horizon reward progressively extend the length of action chunks that the policy can execute stably.
-- **Stage 2: trajectory compression and stabilization.**
-  Step-saving reward and group-anchored temporal stability regularization compress redundant execution steps and improve update stability under KL-constrained policy optimization.
-
-From the policy-learning perspective, PolicyTrim systematically mitigates tail degradation in long action chunks and redundant execution paths during deployment.
+PolicyTrim is a two-stage RL post-training framework. It first extends the reliable action chunk horizon by rewarding successful execution of longer chunks, then reduces redundant physical steps with a step-saving objective and stability regularization. Across three benchmarks and three VLA models, PolicyTrim improves action chunk utilization by **3×**, reduces physical execution steps by **51.4%**, and achieves up to **5.83×** end-to-end deployment speedup without sacrificing task success.
 
 <div align="center">
   <img src="overview_01.png" alt="PolicyTrim overview" width="1200"/>
@@ -33,24 +29,24 @@ From the policy-learning perspective, PolicyTrim systematically mitigates tail d
 
 The codebase is built on the RLinf embodied RL stack and contains:
 
-- GRPO-based embodied training for VLA models such as OpenPI, OpenVLA-OFT, and GR00T
-- long-horizon planning, chunked execution, and re-planning-aware rollout
-- reward shaping for plan efficiency and temporal stability
-- training and evaluation configs for LIBERO, ManiSkill, RoboTwin, RoboCasa, MetaWorld, and related embodied benchmarks
+- GRPO-based post-training for VLA models such as OpenPI, OpenVLA-OFT, and GR00T
+- chunked action execution and re-planning-aware rollout
+- reliable-horizon reward, step-saving reward, and stability regularization
+- training and evaluation configs for LIBERO, ManiSkill, Meta-World, and related embodied benchmarks
 
 ## Key Ideas
 
-### 1. Long-horizon reliable action expansion
+### 1. Intrinsic policy efficiency
 
-PolicyTrim trains policies to move beyond short, conservative action chunks by explicitly modeling and rewarding reliable long-horizon execution. The framework supports generating a longer plan horizon while executing the policy chunk-by-chunk in the environment.
+End-to-end VLA deployment time depends not only on per-step inference latency, but also on how many inference calls the policy needs to finish a task. PolicyTrim targets this second axis by improving action chunk utilization and reducing redundant physical execution.
 
-### 2. Intrinsic policy efficiency optimization
+### 2. Reliable action chunk extension
 
-Instead of only maximizing task success, PolicyTrim optimizes how efficiently a policy reaches success. Earlier successful completion receives higher reward, encouraging compact and non-redundant execution trajectories.
+VLA policies often produce less reliable predictions near the tail of an action chunk. PolicyTrim progressively probes longer execution windows and rewards successful rollouts that sustain longer reliable chunks.
 
-### 3. Group-level temporal stability regularization
+### 3. Redundancy-aware step reduction
 
-To reduce unstable updates and long-horizon tail collapse, PolicyTrim introduces group-relative regularization over success timing, improving robustness of GRPO optimization for embodied VLA post-training.
+Even successful rollouts can contain unnecessary corrective actions. PolicyTrim encourages successful trajectories that reach the goal in fewer physical steps while discouraging fragile shortcuts that are not reproducible.
 
 ## Two-Stage Training Workflow
 
@@ -58,7 +54,7 @@ PolicyTrim uses a two-stage training procedure.
 
 ### Stage 1: Reliable Action Chunk Extension
 
-The goal of Stage 1, **Reliable Action Chunk Extension**, is to expand the longest action chunk horizon that the policy can execute reliably. Training starts from shorter chunk execution and gradually explores longer planning horizons, so the policy learns to maintain stable behavior over longer temporal windows.
+Stage 1 expands the reliable action chunk horizon. Instead of forcing maximum-length execution from the start, each rollout group sweeps over different execution windows. Successful trajectories that complete the task with longer executable chunks receive higher reward, pushing the trustworthy prediction frontier toward the empirical limit.
 
 Recommended parameter pattern for Stage 1:
 
@@ -71,14 +67,14 @@ Recommended parameter pattern for Stage 1:
 - keep execution chunk fixed by:
   `actor.model.num_action_chunks=<base chunk>`
 
-Typical effect:
+Expected effect:
 
-- the model first learns to execute longer reliable plans
-- the best reliable chunk / horizon setting from Stage 1 is selected for the next stage
+- the policy learns to execute longer reliable action chunks
+- the best reliable chunk / horizon setting is selected for Stage 2
 
 ### Stage 2: Redundancy-Aware Step Reduction
 
-Stage 2, **Redundancy-Aware Step Reduction**, is built on top of the best chunk setting found in Stage 1. The goal is no longer to further expand chunk length, but to reduce redundant execution steps while keeping task success stable.
+Stage 2 reduces redundant physical steps using the reliable chunk setting found in Stage 1. A step-saving reward favors successful rollouts that complete the task in fewer steps, while a stability penalty prevents the policy from collapsing onto unreproducible shortcuts.
 
 Recommended parameter pattern for Stage 2:
 
@@ -93,11 +89,11 @@ Recommended parameter pattern for Stage 2:
   `rollout.plan_horizon=<selected best horizon>`
   `rollout.action_horizons_pattern=[selected horizon]` or a fixed narrow pattern
 
-Typical effect:
+Expected effect:
 
 - the policy is optimized to reach success in fewer steps
 - redundant execution paths are compressed
-- GRPO updates become more stable under group-relative temporal regularization
+- task success remains stable while the required number of inference calls decreases
 
 ## Code Structure
 
@@ -189,13 +185,13 @@ bash examples/embodiment/eval_embodiment.sh <config_name>
 
 The main PolicyTrim mechanisms are implemented through the following components:
 
-- **dynamic planning horizon / re-planning pattern**
+- **dynamic execution horizon / re-planning pattern**
   Configured by `rollout.plan_horizon` and `rollout.action_horizons_pattern`
 - **reliable-horizon reward**
   Configured by `algorithm.use_plan_reward`
 - **step-saving reward**
   Configured by `algorithm.use_eff_reward`
-- **group-anchored temporal stability regularization**
+- **group-anchored stability regularization**
   Configured by `algorithm.use_temporal_stability_penalty`
 
 ## Citation and Acknowledgement
