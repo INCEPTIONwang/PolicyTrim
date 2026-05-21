@@ -1,0 +1,87 @@
+name: Bug report
+description: Raise an issue here if you find a bug.
+title: "[Bug]: "
+labels: ["bug"]
+
+body:
+- type: textarea
+  attributes:
+    label: Affected component
+    description: |
+      *What* is affected by this bug?
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Bug description
+    description: |
+      Please provide a clear and concise description of what the bug is.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Configuration YAML file
+    description: |
+      Please provide the configuration YAML file that leads to the bug.
+    value: |
+      YAML config file:
+
+      You can also paste the full config here.
+      ```
+      <paste YAML content here>
+      ```
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Log file
+    description: |
+      Please upload the log file or paste the full log messages when the bug happens.
+    value: |
+      You can find the log file in `logs/` folder or the $output_dir/$experiment_name folder (defined in the yaml config) if you are using our example scripts.
+
+      Log file:
+
+      If you cannot find the log, please provide the full log messages here.
+      ```
+      <paste log here>
+      ```
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Environment
+    description: |
+      Please provide the environment you are using via the following command:
+      ```
+      python -V
+      uv pip list
+      nvidia-smi
+      ```
+      Additionally, please provide the RLinf version, Megatron version if you are using Megatron, and docker image tag if you are using our images
+    value: |
+      python -V:
+      uv pip list:
+      nvidia-smi:
+      RLinf version:
+      Docker image tag: 
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Other reproduction info
+    description: |
+      Please describe additional context or information that could help us reproduce the issue. If applicable, you can provide a minimal code snippet or steps to reproduce the issue.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: >
+      Thanks for contributing to RLinf!
+- type: checkboxes
+  id: check_doc
+  attributes:
+    label: Before submitting a new issue...
+    options:
+      - label: Have you checked relevant issues, FAQs (https://rlinf.readthedocs.io/en/latest/rst_source/faq.html), or asked the chatbot at the top right corner of the [documentation page](https://rlinf.readthedocs.io).
+        required: true

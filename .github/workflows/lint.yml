@@ -1,0 +1,16 @@
+name: Lint
+
+on:
+  pull_request:
+
+jobs:
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v5
+  #   - uses: actions/setup-python@v3
+  #   - uses: pre-commit/action@v3.0.1
+  lint-disabled:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Lint checks are disabled."

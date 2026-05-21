@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PolicyTrim: Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models" />
+  <title>PolicyTrim | Boosting Intrinsic Policy Efficiency of VLA Models</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=20260521-paper" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="brand" href="#top">PolicyTrim</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#bibtex">BibTeX</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero title-hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="venue">ECCV 2026</p>
+          <h1 class="publication-title">PolicyTrim</h1>
+          <p class="paper-full-title">Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models</p>
+
+          <div class="authors" aria-label="Authors">
+            <a href="#">Author 1<sup>1</sup></a>
+            <a href="#">Author 2<sup>2</sup></a>
+            <a href="#">Author 3<sup>3</sup></a>
+            <a href="#">Author 4<sup>1</sup></a>
+          </div>
+          <div class="institutions">
+            <span><sup>1</sup>Institution 1</span>
+            <span><sup>2</sup>Institution 2</span>
+            <span><sup>3</sup>Institution 3</span>
+          </div>
+
+          <div class="actions">
+            <a class="button secondary" href="#" aria-disabled="true">arXiv coming soon</a>
+            <a class="button primary" href="https://github.com/INCEPTIONwang/PolicyTrim" target="_blank" rel="noreferrer">Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="teaser-section" aria-labelledby="teaser-title">
+      <div class="content content-figure">
+        <h2 id="teaser-title">Intrinsic Policy Inefficiency in Deployed VLA Models</h2>
+        <figure class="paper-figure">
+          <div class="figure-scroll">
+            <img src="assets/images/figure-inefficiency.png?v=20260520-refactor" alt="Intrinsic policy inefficiency analysis" />
+          </div>
+          <figcaption>
+            <strong>Figure 1.</strong> Repeated rollouts reveal large step-count variance, while forced long chunk
+            execution can reduce success and increase physical steps, exposing unreliable tail predictions and
+            redundant corrective actions.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="abstract" class="section">
+      <div class="content content-reading">
+        <div class="section-kicker">Abstract</div>
+        <h2>Two-Stage RL Post-Training for Policy Efficiency</h2>
+        <div class="abstract-copy">
+          <p>
+            Vision-Language-Action (VLA) models provide a unified paradigm for robotic manipulation, yet their
+            real-world deployment is often bottlenecked by execution efficiency. While existing efforts predominantly
+            focus on compute-centric efficiency to reduce per-step inference latency, the intrinsic
+            <strong>policy efficiency</strong> of these models remains largely unexplored. Policy efficiency is
+            fundamentally affected by two factors: the effective executable length of predicted action chunks and the
+            total physical steps required to complete a task.
+          </p>
+          <p>
+            We observe that current VLA policies struggle with planning unreliability and action redundancy, suffering
+            from severe prediction degradation at the tail of action chunks and tending to generate unnecessarily
+            redundant physical steps. To address this, we propose <strong>PolicyTrim</strong>, a reinforcement
+            learning-based post-training framework that extends the reliable action chunk length and reduces redundant
+            physical steps via dynamic horizon exploration and a redundancy-aware step-saving reward.
+          </p>
+          <p>
+            Extensive experiments across three benchmarks and three VLA models demonstrate that PolicyTrim improves
+            action chunk utilization by <strong>3×</strong> and reduces physical execution steps by
+            <strong>51.4%</strong>. Ultimately, our framework delivers up to a <strong>5.83×</strong>
+            end-to-end deployment speedup without compromising task success rates.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-band" aria-label="Key results">
+      <div class="content metric-grid">
+        <div class="metric">
+          <span>3×</span>
+          <p>Action chunk utilization improvement</p>
+        </div>
+        <div class="metric">
+          <span>51.4%</span>
+          <p>Physical execution step reduction</p>
+        </div>
+        <div class="metric">
+          <span>5.83×</span>
+          <p>End-to-end deployment speedup</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section section-alt">
+      <div class="content content-wide">
+        <div class="section-kicker">Method</div>
+        <h2>Two-Stage RL Post-Training Framework</h2>
+        <figure class="paper-figure method-figure">
+          <div class="figure-scroll">
+            <img src="assets/images/figure-overview.png?v=20260520-refactor" alt="PolicyTrim method overview" />
+          </div>
+          <figcaption>
+            <strong>Figure 2.</strong> PolicyTrim is a two-stage RL post-training framework: first extend the reliable
+            action chunk horizon, then reduce redundant physical steps with a step-saving objective.
+          </figcaption>
+        </figure>
+
+        <div class="stage-grid">
+          <article class="stage">
+            <p class="stage-label">Stage 1</p>
+            <h3>Reliable Action Chunk Extension</h3>
+            <p>
+              A progressive reliability sweep rewards successful rollouts that sustain longer executable action
+              chunks, pushing the trustworthy prediction frontier toward the usable chunk limit.
+            </p>
+          </article>
+          <article class="stage">
+            <p class="stage-label">Stage 2</p>
+            <h3>Redundancy-Aware Step Reduction</h3>
+            <p>
+              A step-saving reward favors successful task completions with fewer physical steps, while stability
+              regularization discourages unreproducible shortcuts.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="section">
+      <div class="content content-wide">
+        <div class="section-kicker">Experiments</div>
+        <h2>Benchmark Results</h2>
+
+        <div class="table-block">
+          <div class="table-heading">
+            <h3>LIBERO Benchmark</h3>
+            <p>
+              Average success rate (SR), total physical steps (S<sub>total</sub>), average action chunk execution
+              length (h<sub>chunk</sub>), and end-to-end speedup (Spd↑) across four LIBERO subsets.
+            </p>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th rowspan="2">Task</th>
+                  <th rowspan="2">Method</th>
+                  <th colspan="4">π₀.₅</th>
+                  <th colspan="4">OpenVLA-OFT</th>
+                  <th colspan="4">GR00T</th>
+                </tr>
+                <tr>
+                  <th>SR</th><th>S<sub>total</sub></th><th>h<sub>chunk</sub></th><th>Spd↑</th>
+                  <th>SR</th><th>S<sub>total</sub></th><th>h<sub>chunk</sub></th><th>Spd↑</th>
+                  <th>SR</th><th>S<sub>total</sub></th><th>h<sub>chunk</sub></th><th>Spd↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">Spatial</td><td>Baseline</td>
+                  <td>97.8</td><td>108.3</td><td>5</td><td>1.0</td>
+                  <td>98.6</td><td>111.2</td><td>8</td><td>1.0</td>
+                  <td>91.4</td><td>67.2</td><td>5</td><td>1.0</td>
+                </tr>
+                <tr class="ours">
+                  <td>PolicyTrim</td>
+                  <td>97.8</td><td>59.8</td><td>15</td><td>5.43×</td>
+                  <td>98.5</td><td>62.1</td><td>—</td><td>2.37×</td>
+                  <td>92.0</td><td>56.6</td><td>10</td><td>2.37×</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">Object</td><td>Baseline</td>
+                  <td>99.1</td><td>125.0</td><td>5</td><td>1.0</td>
+                  <td>98.5</td><td>135.2</td><td>8</td><td>1.0</td>
+                  <td>95.0</td><td>71.3</td><td>5</td><td>1.0</td>
+                </tr>
+                <tr class="ours">
+                  <td>PolicyTrim</td>
+                  <td>98.5</td><td>64.3</td><td>15</td><td>5.83×</td>
+                  <td>98.5</td><td>68.8</td><td>—</td><td>2.18×</td>
+                  <td>95.3</td><td>65.5</td><td>10</td><td>2.18×</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">Goal</td><td>Baseline</td>
+                  <td>98.7</td><td>110.6</td><td>5</td><td>1.0</td>
+                  <td>97.7</td><td>118.6</td><td>8</td><td>1.0</td>
+                  <td>84.2</td><td>63.5</td><td>5</td><td>1.0</td>
+                </tr>
+                <tr class="ours">
+                  <td>PolicyTrim</td>
+                  <td>98.8</td><td>63.5</td><td>15</td><td>5.23×</td>
+                  <td>98.0</td><td>66.9</td><td>—</td><td>2.08×</td>
+                  <td>86.3</td><td>60.8</td><td>10</td><td>2.08×</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">Long</td><td>Baseline</td>
+                  <td>93.0</td><td>249.8</td><td>5</td><td>1.0</td>
+                  <td>92.9</td><td>249.3</td><td>8</td><td>1.0</td>
+                  <td>86.1</td><td>177.9</td><td>5</td><td>1.0</td>
+                </tr>
+                <tr class="ours">
+                  <td>PolicyTrim</td>
+                  <td>93.3</td><td>171.8</td><td>15</td><td>2.91×</td>
+                  <td>93.1</td><td>178.3</td><td>—</td><td>2.14×</td>
+                  <td>89.2</td><td>165.9</td><td>10</td><td>2.14×</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-block">
+          <div class="table-heading">
+            <h3>ManiSkill &amp; Meta-World</h3>
+            <p>
+              PolicyTrim improves both success rates and step efficiency across benchmarks, reaching up to 2.52×
+              speedup on Meta-World and 2.36× on ManiSkill.
+            </p>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th rowspan="2">Benchmark</th>
+                  <th rowspan="2">Method</th>
+                  <th colspan="4">π₀.₅</th>
+                  <th colspan="4">OpenVLA-OFT</th>
+                </tr>
+                <tr>
+                  <th>SR</th><th>S<sub>total</sub></th><th>h<sub>chunk</sub></th><th>Spd↑</th>
+                  <th>SR</th><th>S<sub>total</sub></th><th>h<sub>chunk</sub></th><th>Spd↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">ManiSkill</td><td>Baseline</td>
+                  <td>88.1</td><td>45.2</td><td>5</td><td>1.0</td>
+                  <td>60.6</td><td>53.1</td><td>8</td><td>1.0</td>
+                </tr>
+                <tr class="ours">
+                  <td>PolicyTrim</td>
+                  <td>89.8</td><td>38.3</td><td>10</td><td>2.36×</td>
+                  <td>63.2</td><td>46.7</td><td>8</td><td>1.14×</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">Meta-World</td><td>Baseline</td>
+                  <td>65.1</td><td>66.3</td><td>5</td><td>1.0</td>
+                  <td colspan="4" class="muted">not evaluated</td>
+                </tr>
+                <tr class="ours">
+                  <td>PolicyTrim</td>
+                  <td>65.4</td><td>52.6</td><td>10</td><td>2.52×</td>
+                  <td colspan="4"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <figure class="paper-figure qualitative-figure">
+          <div class="figure-scroll">
+            <img src="assets/images/figure-qualitative.png?v=20260520-refactor" alt="Qualitative comparison on LIBERO tasks" />
+          </div>
+          <figcaption>
+            <strong>Figure 3.</strong> Qualitative comparison on randomly sampled LIBERO tasks. Under identical
+            configurations, the baseline incurs redundant physical actions while PolicyTrim completes tasks in
+            fewer steps.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="bibtex" class="section section-alt">
+      <div class="content content-reading">
+        <div class="section-kicker">Citation</div>
+        <h2>BibTeX</h2>
+        <div class="bibtex">
+          <button class="copy-button" type="button" data-copy-bib>Copy</button>
+          <pre><code>@inproceedings{policytrim2026,
+  title     = {PolicyTrim: Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models},
+  author    = {Anonymous},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>PolicyTrim</strong> | Boosting Intrinsic Policy Efficiency of VLA Models</p>
+    <p>ECCV 2026</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
