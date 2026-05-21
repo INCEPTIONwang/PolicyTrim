@@ -4,8 +4,9 @@
 
 <div align="center">
 
-[![English](https://img.shields.io/badge/lang-English-blue.svg)](README.md)
-[![简体中文](https://img.shields.io/badge/语言-简体中文-red.svg)](README.zh-CN.md)
+[![arXiv](https://img.shields.io/badge/arXiv-coming_soon-b31b1b.svg)](#)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](https://inceptionwang.github.io/PolicyTrim/)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](LICENSE)
 
 </div>
 
