@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PolicyTrim: Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models" />
   <title>PolicyTrim | Boosting Intrinsic Policy Efficiency of VLA Models</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=20260521-paper" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260619-realworld-tasks" />
 </head>
 <body>
   <header class="site-header">
@@ -15,6 +15,7 @@
         <a href="#abstract">Abstract</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
+        <a href="#video">Real-World</a>
         <a href="#bibtex">BibTeX</a>
       </div>
     </nav>
@@ -29,22 +30,32 @@
           <p class="paper-full-title">Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models</p>
 
           <div class="authors" aria-label="Authors">
-            <a href="#">Xianghui Wang<sup>1,*</sup></a>
-            <a href="#">Feng Chen<sup>2,*</sup></a>
-            <a href="https://openreview.net/profile?id=~Wenbo_Zhang9" target="_blank" rel="noreferrer">Wenbo Zhang<sup>2</sup></a>
-            <a href="https://openreview.net/profile?id=~Hua_Yan2" target="_blank" rel="noreferrer">Hua Yan<sup>1</sup></a>
-            <a href="https://openreview.net/profile?id=~Zixuan_Wang12" target="_blank" rel="noreferrer">Zixuan Wang<sup>1</sup></a>
-            <a href="https://openreview.net/profile?id=~Changsheng_Li4" target="_blank" rel="noreferrer">Changsheng Li<sup>3</sup></a>
-            <a href="https://openreview.net/profile?id=~Yinjie_Lei1" target="_blank" rel="noreferrer">Yinjie Lei<sup>1</sup></a>
+            <div class="author-row">
+              <a href="https://github.com/INCEPTIONwang" target="_blank" rel="noreferrer">Xianghui Wang<sup>1,*</sup></a>
+              <a href="https://chenfeng1271.github.io/" target="_blank" rel="noreferrer">Feng Chen<sup>2,*</sup></a>
+              <a href="https://zwbx.github.io/" target="_blank" rel="noreferrer">Wenbo Zhang<sup>2</sup></a>
+              <a href="https://scholar.google.com.hk/citations?user=HqXZSSsAAAAJ" target="_blank" rel="noreferrer">Hua Yan<sup>1</sup></a>
+              <a href="https://www.researchgate.net/profile/Zixuan-Wang-109?ev=hdr_xprf&amp;_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6ImhvbWUiLCJwYWdlIjoiaG9tZSIsInBvc2l0aW9uIjoiZ2xvYmFsSGVhZGVyIn19" target="_blank" rel="noreferrer">Zixuan Wang<sup>1,&dagger;</sup></a>
+            </div>
+            <div class="author-row author-row-secondary">
+              <a href="https://scholar.google.com/citations?user=FfJnUioAAAAJ&amp;hl=en" target="_blank" rel="noreferrer">Changsheng Li<sup>3</sup></a>
+              <a href="https://www.semanticscholar.org/author/Yinjie-Lei/46359335" target="_blank" rel="noreferrer">Yinjie Lei<sup>1,&Dagger;</sup></a>
+            </div>
           </div>
           <div class="institutions">
             <span><sup>1</sup>Sichuan University</span>
             <span><sup>2</sup>The University of Adelaide</span>
             <span><sup>3</sup>Beijing Institute of Technology</span>
           </div>
+          <div class="author-notes">
+            <span><sup>*</sup>Co-first authors</span>
+            <span><sup>&dagger;</sup>Project lead</span>
+            <span><sup>&Dagger;</sup>Corresponding author</span>
+          </div>
 
           <div class="actions">
             <a class="button secondary" href="#" aria-disabled="true">arXiv coming soon</a>
+            <a class="button secondary" href="https://huggingface.co/INCEPTIONwang/PolicyTrim" target="_blank" rel="noreferrer">Hugging Face</a>
             <a class="button primary" href="https://github.com/INCEPTIONwang/PolicyTrim" target="_blank" rel="noreferrer">Code</a>
           </div>
         </div>
@@ -54,9 +65,9 @@
     <section class="teaser-section" aria-labelledby="teaser-title">
       <div class="content content-figure">
         <h2 id="teaser-title">Intrinsic Policy Inefficiency in Deployed VLA Models</h2>
-        <figure class="paper-figure">
+        <figure class="paper-figure teaser-figure">
           <div class="figure-scroll">
-            <img src="assets/images/figure-inefficiency.png?v=20260520-refactor" alt="Intrinsic policy inefficiency analysis" />
+            <img src="fig/ob.png?v=20260619-ob-png" alt="Intrinsic policy inefficiency analysis" />
           </div>
           <figcaption>
             <strong>Figure 1.</strong> Repeated rollouts reveal large step-count variance, while forced long chunk
@@ -377,6 +388,171 @@
       </div>
     </section>
 
+    <section id="video" class="section section-alt">
+      <div class="content content-wide">
+        <div class="section-kicker">Real-World Comparison</div>
+        <h2>Real-World Comparison</h2>
+
+        <article class="video-task">
+          <h3 class="task-heading">Flip Mug</h3>
+          <p class="task-title">Baseline: 14.3s | PolicyTrim: 6.5s</p>
+
+          <div class="video-comparison" aria-label="Flip Mug baseline and PolicyTrim video comparison">
+            <article class="video-panel">
+              <div class="video-heading">
+                <h3>Baseline</h3>
+                <span>Success at 14.3s</span>
+              </div>
+              <div class="video-frame">
+                <video
+                  src="video/Flip_Mug/base_143.mp4?v=20260619-tasks"
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-success-time="14.3"
+                  aria-label="Flip Mug baseline rollout video"
+                ></video>
+                <div class="video-overlay" aria-hidden="true">
+                  <span class="video-time" data-video-time>00:00.0</span>
+                  <span class="success-mark" data-success-mark>Success</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="video-panel ours">
+              <div class="video-heading">
+                <h3>PolicyTrim</h3>
+                <span>Success at 6.5s</span>
+              </div>
+              <div class="video-frame">
+                <video
+                  src="video/Flip_Mug/RL_65.mp4?v=20260619-tasks"
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-success-time="6.5"
+                  aria-label="Flip Mug PolicyTrim rollout video"
+                ></video>
+                <div class="video-overlay" aria-hidden="true">
+                  <span class="video-time" data-video-time>00:00.0</span>
+                  <span class="success-mark" data-success-mark>Success</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="video-task">
+          <h3 class="task-heading">Hang Mug</h3>
+          <p class="task-title">Baseline: 15.1s | PolicyTrim: 7.4s</p>
+
+          <div class="video-comparison" aria-label="Hang Mug baseline and PolicyTrim video comparison">
+            <article class="video-panel">
+              <div class="video-heading">
+                <h3>Baseline</h3>
+                <span>Success at 15.1s</span>
+              </div>
+              <div class="video-frame">
+                <video
+                  src="video/Hang_Mug/base_151.mp4?v=20260619-tasks"
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-success-time="15.1"
+                  aria-label="Hang Mug baseline rollout video"
+                ></video>
+                <div class="video-overlay" aria-hidden="true">
+                  <span class="video-time" data-video-time>00:00.0</span>
+                  <span class="success-mark" data-success-mark>Success</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="video-panel ours">
+              <div class="video-heading">
+                <h3>PolicyTrim</h3>
+                <span>Success at 7.4s</span>
+              </div>
+              <div class="video-frame">
+                <video
+                  src="video/Hang_Mug/RL_74.mp4?v=20260619-tasks"
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-success-time="7.4"
+                  aria-label="Hang Mug PolicyTrim rollout video"
+                ></video>
+                <div class="video-overlay" aria-hidden="true">
+                  <span class="video-time" data-video-time>00:00.0</span>
+                  <span class="success-mark" data-success-mark>Success</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="video-task">
+          <h3 class="task-heading">Tape Box</h3>
+          <p class="task-title">Baseline: 18.6s | PolicyTrim: 7.5s</p>
+
+          <div class="video-comparison" aria-label="Tape Box baseline and PolicyTrim video comparison">
+            <article class="video-panel">
+              <div class="video-heading">
+                <h3>Baseline</h3>
+                <span>Success at 18.6s</span>
+              </div>
+              <div class="video-frame">
+                <video
+                  src="video/Tape_Box/base_186.mp4?v=20260619-tasks"
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-success-time="18.6"
+                  aria-label="Tape Box baseline rollout video"
+                ></video>
+                <div class="video-overlay" aria-hidden="true">
+                  <span class="video-time" data-video-time>00:00.0</span>
+                  <span class="success-mark" data-success-mark>Success</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="video-panel ours">
+              <div class="video-heading">
+                <h3>PolicyTrim</h3>
+                <span>Success at 7.5s</span>
+              </div>
+              <div class="video-frame">
+                <video
+                  src="video/Tape_Box/RL_75.mp4?v=20260619-tasks"
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-success-time="7.5"
+                  aria-label="Tape Box PolicyTrim rollout video"
+                ></video>
+                <div class="video-overlay" aria-hidden="true">
+                  <span class="video-time" data-video-time>00:00.0</span>
+                  <span class="success-mark" data-success-mark>Success</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <p class="video-caption">
+          Real-world rollout comparison under the same task setting. The success marker appears at the completion
+          timestamp encoded in each video filename.
+        </p>
+      </div>
+    </section>
+
     <section id="bibtex" class="section section-alt">
       <div class="content content-reading">
         <div class="section-kicker">Citation</div>
@@ -385,7 +561,7 @@
           <button class="copy-button" type="button" data-copy-bib>Copy</button>
           <pre><code>@inproceedings{policytrim2026,
   title     = {PolicyTrim: Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models},
-  author    = {Anonymous},
+  author    = {Xianghui Wang and Feng Chen and Wenbo Zhang and Hua Yan and Zixuan Wang and Changsheng Li and Yinjie Lei},
   booktitle = {European Conference on Computer Vision (ECCV)},
   year      = {2026}
 }</code></pre>
@@ -399,6 +575,6 @@
     <p>ECCV 2026</p>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20260619-realworld-tasks"></script>
 </body>
 </html>

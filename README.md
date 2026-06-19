@@ -5,8 +5,17 @@
 <div align="center">
 
 [![arXiv](https://img.shields.io/badge/arXiv-coming_soon-b31b1b.svg)](#)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-PolicyTrim-ffcc4d.svg)](https://huggingface.co/INCEPTIONwang/PolicyTrim)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](https://inceptionwang.github.io/PolicyTrim/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](LICENSE)
+
+</div>
+
+<div align="center">
+
+Xianghui Wang<sup>*</sup>, Feng Chen<sup>*</sup>, Wenbo Zhang, Hua Yan, Zixuan Wang<sup>†</sup>, Changsheng Li, Yinjie Lei<sup>‡</sup>
+
+<sup>*</sup>Co-first authors · <sup>†</sup>Project lead · <sup>‡</sup>Corresponding author
 
 </div>
 
@@ -196,13 +205,15 @@ The main PolicyTrim mechanisms are implemented through the following components:
 
 ## Citation and Acknowledgement
 
-If you find RLinf helpful, please cite the paper:
+If you find PolicyTrim helpful, please cite:
 
 ```bibtex
-@article{yu2025rlinf,
-  title={RLinf: Flexible and Efficient Large-scale Reinforcement Learning via Macro-to-Micro Flow Transformation},
-  author={Yu, Chao and Wang, Yuanqing and Guo, Zhen and Lin, Hao and Xu, Si and Zang, Hongzhi and Zhang, Quanlu and Wu, Yongji and Zhu, Chunyang and Hu, Junhao and others},
-  journal={arXiv preprint arXiv:2509.15965},
-  year={2025}
+@inproceedings{policytrim2026,
+  title     = {PolicyTrim: Boosting Intrinsic Policy Efficiency of Vision-Language-Action Models},
+  author    = {Xianghui Wang and Feng Chen and Wenbo Zhang and Hua Yan and Zixuan Wang and Changsheng Li and Yinjie Lei},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
 }
 ```
+
+This codebase builds on the RLinf embodied RL stack.
