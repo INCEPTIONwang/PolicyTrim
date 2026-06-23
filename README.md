@@ -4,7 +4,7 @@
 
 <div align="center">
 
-[![arXiv](https://img.shields.io/badge/arXiv-coming_soon-b31b1b.svg)](#)
+[![arXiv](https://img.shields.io/badge/arXiv-2606.22540-b31b1b.svg)](https://arxiv.org/pdf/2606.22540)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-PolicyTrim-ffcc4d.svg)](https://huggingface.co/INCEPTIONwang/PolicyTrim)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](https://inceptionwang.github.io/PolicyTrim/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](LICENSE)
